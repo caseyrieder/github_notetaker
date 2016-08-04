@@ -16,7 +16,6 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, Navigator, View, TouchableHighlight } from 'react-native';
 import Main from './app/components/Main';
-import Dashboard from './app/components/Dashboard';
 
 const styles = StyleSheet.create({
   constainer: {

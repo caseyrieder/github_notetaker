@@ -84,10 +84,6 @@ class Main extends React.Component {
             component: Dashboard,
             passProps: {userInfo: res},
           });
-          // this.props.navigator.push({
-          //   title: res.name || "Select an Option",
-          //   renderScene={(route, navigator) => <Dashboard navigator={navigator} userInfo={res} />}
-          // });
 
           this.setState({
             isLoading: false,
