@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableHighlight, ActivityIndicator } from 'react-native';
+import api from '../utils/api';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -66,9 +67,34 @@ class Main extends React.Component {
     this.setState({
       isLoading: true
     });
-    console.log('SUBMIT', this.state.username)
-    // fetch github data
-    // reroute to next passing that github information
+    // call teh api with the username
+    api.getBio(this.state.username)
+      .then((res) => {
+        if(res.message === 'Not Found') {
+          // handle nonexistent user error
+          this.setState({
+            error: 'User not found',
+            isLoading: false,
+          })
+        } else {
+          // if the user exists, push a new route onto the stack with the user's github info from fetch response
+          this.props.navigator.push({
+            title: res.name || "Select an Option",
+            component: Dashboard,
+            passProps: {userInfo: res}
+          });
+          // this.props.navigator.push({
+          //   title: res.name || "Select an Option",
+          //   renderScene={(route, navigator) => <Dashboard navigator={navigator} userInfo={res} />}
+          // });
+
+          this.setState({
+            isLoading: false,
+            error: false,
+            username: '',
+          })
+        }
+      });
   }
 
   render() {
