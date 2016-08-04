@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import Badge from './Badge'
-import Separator from './Separator'
+import Separator from '../helpers/Separator'
 
 const styles = StyleSheet.create({
   container: {

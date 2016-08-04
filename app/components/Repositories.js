@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { View, Text, StyleSheet, ScrollView, TouchableHighlight } from 'react-native'
 import Badge from './Badge'
-import Separator from './Separator'
+import Separator from '../helpers/Separator'
+import Web from '../helpers/Web'
 
 const styles = StyleSheet.create({
   container: {
@@ -31,6 +32,11 @@ const styles = StyleSheet.create({
 class Repositories extends Component {
   openPage(url) {
     console.log('the url is ', url);
+    this.props.navigator.push({
+      title: "Web View",
+      component: Web,
+      passProps: {url},
+    });
   }
 
   render() {
