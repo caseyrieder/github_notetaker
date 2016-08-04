@@ -33,7 +33,7 @@ class Profile extends Component {
   render() {
     const userInfo = this.props.userInfo;
     const topicArr = ['company', 'location', 'followers', 'following', 'email', 'bio', 'public_repos'];
-    const list = topicArr.map((item, index) => {
+    const infoList = topicArr.map((item, index) => {
       if(!userInfo[item]) {
         return <View key={index} />
       } else {
@@ -51,7 +51,7 @@ class Profile extends Component {
     return (
       <ScrollView style={styles.container}>
         <Badge userInfo={this.props.userInfo}/>
-        {list}
+        {infoList}
       </ScrollView>
     )
   }
