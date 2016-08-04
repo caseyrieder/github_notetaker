@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableHighlight, ActivityIndicator } from 'react-native';
-import api from '../utils/api';
+import React from 'react'
+import { View, Text, StyleSheet, TextInput, TouchableHighlight, ActivityIndicator } from 'react-native'
+import api from '../utils/api'
+import Dashboard from './Dashboard'
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -81,7 +82,7 @@ class Main extends React.Component {
           this.props.navigator.push({
             title: res.name || "Select an Option",
             component: Dashboard,
-            passProps: {userInfo: res}
+            passProps: {userInfo: res},
           });
           // this.props.navigator.push({
           //   title: res.name || "Select an Option",

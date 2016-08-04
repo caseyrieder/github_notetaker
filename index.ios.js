@@ -16,6 +16,7 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, Navigator, View } from 'react-native';
 import Main from './app/components/Main';
+import Dashboard from './app/components/Dashboard';
 
 const styles = StyleSheet.create({
   constainer: {
@@ -25,15 +26,23 @@ const styles = StyleSheet.create({
 })
 
 class eggheadGithubNotetaker extends Component {
+  renderScene(route, navigator) {
+    return <route.component navigator={navigator} {...route.passProps} />
+  }
+
   render() {
     return (
       <Navigator
-        initialRoute={{ title: 'Github Notetaker', index: 0 }}
-        renderScene={(route, navigator) => <Main title={route.title} navigator={navigator} />}
         style={styles.container}
+        renderScene={this.renderScene}
+        initialRoute={{component: Main}}
       />
     );
   }
 }
 
 AppRegistry.registerComponent('eggheadGithubNotetaker', () => eggheadGithubNotetaker);
+
+
+// renderScene={(route, navigator) => <Main title={route.title} navigator={navigator} />}
+// initialRoute={{ title: 'Github Notetaker', index: 0 }}
