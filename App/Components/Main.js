@@ -99,6 +99,9 @@ class Main extends React.Component {
   }
 
   render() {
+    const showErr = (
+      this.state.error ? <Text> {this.state.error} </Text> : <View></View>
+    );
     return (
       <View style={styles.mainContainer}>
         <Text style={styles.title}> Search for a Github User </Text>
@@ -111,10 +114,16 @@ class Main extends React.Component {
           style={styles.button}
           onPress={this.handleSubmit.bind(this)}
           underlayColor="white">
-            <Text style={styles.buttonText}>
-               SEARCH
-            </Text>
-          </TouchableHighlight>
+          <Text style={styles.buttonText}>
+             SEARCH
+          </Text>
+        </TouchableHighlight>
+        <ActivityIndicator
+          animating={this.state.isLoading}
+          color="#111"
+          size="large" >
+        </ActivityIndicator>
+        {showErr}
       </View>
     )
   }
