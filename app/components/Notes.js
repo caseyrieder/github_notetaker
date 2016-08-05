@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { View, Text, ListView, TextInput, StyleSheet, TouchableHighlight } from 'react-native'
 import api from '../utils/api'
 import Separator from '../helpers/Separator'
@@ -38,13 +38,13 @@ const styles = StyleSheet.create({
 });
 
 // add constructor fxn b/c Notes manages its own state
-class Notes extends Component {
+class Notes extends React.Component {
   constructor(props) {
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     // initial state
     this.state = {
-      dataSource: this.ds.cloneWithRows(this.props.notes),
+      dataSource: this.ds.cloneWithRows(props.notes),
       note: '',
       error: '',
     }
@@ -53,26 +53,27 @@ class Notes extends Component {
   // register change in textinput state
   handleChange(e) {
     this.setState({
-      note: e.nativeEvent.text
-    })
+      note: e.nativeEvent.text,
+    });
   }
   // send note up to firebase & clear state...
   // ...add new note to state
   handleSubmit() {
     const note = this.state.note;
     this.setState({
-      note: ''
-    })
+      note: '',
+    });
+
     api.addNote(this.props.userInfo.login, note)
       .then((data) => {
         api.getNotes(this.props.userInfo.login)
           .then((data) => {
             this.setState({
-              dataSource: this.ds.cloneWithRows(data);
-            })
-          });
+              dataSource: this.ds.cloneWithRows(data),
+            });
+          })
       })
-      .catch((error) = > {
+      .catch((error) => {
         console.log('Request failed', error);
         this.setState({error});
       });
@@ -114,14 +115,14 @@ class Notes extends Component {
       <View style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
-          render={this.renderRow}
+          renderRow={this.renderRow}
           renderHeader={() => <Badge userInfo={this.props.userInfo} />}
         />
         {this.footer()}
       </View>
     )
   }
-};
+}
 
 Notes.propTypes = {
   userInfo: PropTypes.object.isRequired,

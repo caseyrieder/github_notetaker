@@ -33,7 +33,7 @@ class eggheadGithubNotetaker extends Component {
       <Navigator
         style={styles.container}
         renderScene={this.renderScene}
-        initialRoute={{component: Main, title: 'Repos', index: 0}}
+        initialRoute={{component: Main, title: 'Home', index: 0}}
         navigationBar={
           <Navigator.NavigationBar
             routeMapper={{

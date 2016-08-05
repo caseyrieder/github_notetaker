@@ -15,16 +15,15 @@ const api = {
   getNotes(username) {
     username = username.toLowerCase().trim();
     const url = `https://egghead-rn-github-app.firebaseio.com/${username}.json`;
-    return fetch(url).then((res) => res.json());
+    return fetch(url).then(res => res.json());
   },
-  // format username, post stringified note to firebase, return as json
   addNote(username, note) {
     username = username.toLowerCase().trim();
     const url = `https://egghead-rn-github-app.firebaseio.com/${username}.json`;
     return fetch(url, {
       method: 'post',
       body: JSON.stringify(note),
-    }).then((res) => res.json());
+    }).then(res => res.json());
   }
 };
 

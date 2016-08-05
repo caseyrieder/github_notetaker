@@ -30,10 +30,10 @@ const styles = StyleSheet.create({
 });
 
 class Repositories extends Component {
-  openPage(url) {
+  openPage(url, name) {
     console.log('the url is ', url);
     this.props.navigator.push({
-      title: "Web View",
+      title: `${name}`,
       component: Web,
       passProps: {url},
     });
@@ -48,7 +48,7 @@ class Repositories extends Component {
           <View>
             <View style={styles.rowContainer}>
               <TouchableHighlight
-                onPress={this.openPage.bind(this, repos[index].html_url)}
+                onPress={this.openPage.bind(this, repos[index].html_url, repos[index].name)}
                 underlayColor='transparent'>
                 <Text style={styles.name}>{repos[index].name}</Text>
               </TouchableHighlight>
