@@ -39,16 +39,6 @@ const styles = StyleSheet.create({
 
 // add constructor fxn b/c Notes manages its own state
 class Notes extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-  //   // initial state
-  //   this.state = {
-  //     dataSource: this.ds.cloneWithRows(Object.values(this.props.notes)),
-  //     note: '',
-  //     error: '',
-  //   }
-  // }
   static propTypes = {
     userInfo: PropTypes.object.isRequired,
     notes: PropTypes.object.isRequired,
@@ -62,12 +52,6 @@ class Notes extends Component {
     error: '',
   }
 
-  // // register change in textinput state
-  // handleChange(e) {
-  //   this.setState({
-  //     note: e.nativeEvent.text,
-  //   });
-  // }
   // send note up to firebase & clear state...
   // ...add new note to state
   handleSubmit() {
@@ -98,16 +82,6 @@ class Notes extends Component {
       <Separator />
     </View>
   )
-  // renderRow(rowData) {
-  //   return (
-  //     <View>
-  //       <View style={styles.rowContainer}>
-  //         <Text> {rowData} </Text>
-  //       </View>
-  //       <Separator />
-  //     </View>
-  //   )
-  // }
 
   footer() {
     return (
@@ -143,10 +117,5 @@ class Notes extends Component {
     )
   }
 }
-
-// Notes.propTypes = {
-//   userInfo: PropTypes.object.isRequired,
-//   notes: PropTypes.object.isRequired
-// }
 
 export default Notes
