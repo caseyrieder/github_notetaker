@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { View, Text, ListView, TextInput, StyleSheet, TouchableHighlight } from 'react-native'
-import api from '../utils/api'
+import { getNotes, addNote } from '../utils/api'
 import Separator from '../helpers/Separator'
 import Badge from './Badge'
 
@@ -38,24 +38,36 @@ const styles = StyleSheet.create({
 });
 
 // add constructor fxn b/c Notes manages its own state
-class Notes extends React.Component {
-  constructor(props) {
-    super(props);
-    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    // initial state
-    this.state = {
-      dataSource: this.ds.cloneWithRows(props.notes),
-      note: '',
-      error: '',
-    }
+class Notes extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+  //   // initial state
+  //   this.state = {
+  //     dataSource: this.ds.cloneWithRows(Object.values(this.props.notes)),
+  //     note: '',
+  //     error: '',
+  //   }
+  // }
+  static propTypes = {
+    userInfo: PropTypes.object.isRequired,
+    notes: PropTypes.object.isRequired,
   }
 
-  // register change in textinput state
-  handleChange(e) {
-    this.setState({
-      note: e.nativeEvent.text,
-    });
+  ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
+
+  state = {
+    dataSource: this.ds.cloneWithRows(Object.values(this.props.notes)),
+    note: '',
+    error: '',
   }
+
+  // // register change in textinput state
+  // handleChange(e) {
+  //   this.setState({
+  //     note: e.nativeEvent.text,
+  //   });
+  // }
   // send note up to firebase & clear state...
   // ...add new note to state
   handleSubmit() {
@@ -63,32 +75,39 @@ class Notes extends React.Component {
     this.setState({
       note: '',
     });
-
-    api.addNote(this.props.userInfo.login, note)
+    addNote(this.props.userInfo.login, note)
       .then((data) => {
-        api.getNotes(this.props.userInfo.login)
+        getNotes(this.props.userInfo.login)
           .then((data) => {
             this.setState({
-              dataSource: this.ds.cloneWithRows(data),
+              dataSource: this.ds.cloneWithRows(Object.values(data)),
             });
           })
       })
-      .catch((error) => {
-        console.log('Request failed', error);
+      .catch((err) => {
+        console.log('Request failed', err);
         this.setState({error});
       });
   }
 
-  renderRow(rowData) {
-    return (
-      <View>
-        <View style={styles.rowContainer}>
-          <Text> {rowData} </Text>
-        </View>
-        <Separator />
+  renderRow = (rowData) => (
+    <View>
+      <View style={styles.rowContainer}>
+        <Text> {rowData} </Text>
       </View>
-    )
-  }
+      <Separator />
+    </View>
+  )
+  // renderRow(rowData) {
+  //   return (
+  //     <View>
+  //       <View style={styles.rowContainer}>
+  //         <Text> {rowData} </Text>
+  //       </View>
+  //       <Separator />
+  //     </View>
+  //   )
+  // }
 
   footer() {
     return (
@@ -96,7 +115,7 @@ class Notes extends React.Component {
         <TextInput
           style={styles.searchInput}
           value={this.state.note}
-          onChange={this.handleChange.bind(this)}
+          onChangeText={(text) => this.setState({note: text})}
           placeholder="New Note"
         />
         <TouchableHighlight
@@ -114,6 +133,7 @@ class Notes extends React.Component {
     return (
       <View style={styles.container}>
         <ListView
+          enableEmptySections
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}
           renderHeader={() => <Badge userInfo={this.props.userInfo} />}
@@ -124,9 +144,9 @@ class Notes extends React.Component {
   }
 }
 
-Notes.propTypes = {
-  userInfo: PropTypes.object.isRequired,
-  notes: PropTypes.object.isRequired
-}
+// Notes.propTypes = {
+//   userInfo: PropTypes.object.isRequired,
+//   notes: PropTypes.object.isRequired
+// }
 
 export default Notes

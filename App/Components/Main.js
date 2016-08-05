@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, TextInput, TouchableHighlight, ActivityIndicator } from 'react-native'
-import api from '../utils/api'
+import { getBio } from '../utils/api'
 import Dashboard from './Dashboard'
 
 const styles = StyleSheet.create({
@@ -69,7 +69,7 @@ class Main extends React.Component {
       isLoading: true
     });
     // call teh api with the username
-    api.getBio(this.state.username)
+    getBio(this.state.username)
       .then((res) => {
         if(res.message === 'Not Found') {
           // handle nonexistent user error

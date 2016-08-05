@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Image, TouchableHighlight } from 'react-native'
 import Profile from './Profile'
-import api from '../utils/api'
+import { getRepos, getNotes } from '../utils/api'
 import Repositories from './Repositories'
 import Notes from './Notes'
 
@@ -49,7 +49,7 @@ class Dashboard extends Component {
 
   goToRepos() {
     console.log('Go to Repos Page');
-    api.getRepos(this.props.userInfo.login)
+    getRepos(this.props.userInfo.login)
       .then((res) => {
         this.props.navigator.push({
           title: `${this.props.userInfo.name}'s Repos` || 'Repos',
@@ -64,7 +64,7 @@ class Dashboard extends Component {
 
   goToNotes() {
     console.log('Go to Notes Page');
-    api.getNotes(this.props.userInfo.login)
+    getNotes(this.props.userInfo.login)
       .then((res) => {
         res = res || {};
         this.props.navigator.push({
